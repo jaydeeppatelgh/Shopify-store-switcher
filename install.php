@@ -1,4 +1,4 @@
-<?php
+<?php 
 // Set variables for our request
 $shop = $_GET['shop'];
 $replase = ".myshopify.com";
