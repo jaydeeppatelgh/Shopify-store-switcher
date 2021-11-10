@@ -1,0 +1,139 @@
+<div id="ac-wrapper" style="display: none;">
+	<div class="form-popup">
+		<h1>You are login from {{ localization.country.name }}.</h1>
+		<input type="submit" name="submit" value="Yes" onClick="PopUp()" />
+		<input type="submit" name="submit" value="No" onClick="closeForm()" />
+	</div>
+</div>
+<script>
+	var autoredirect = "no";
+	if(autoredirect == "yes")
+	{
+		var ipaddress = "";
+		var ipwhois = request_ipwhois(ipaddress);
+
+		if(ipwhois.country)
+		{
+			var frstr1 = window.location.href;
+			var frstr2 = "https://cunningpro.myshopify.com/" + ipwhois.country_code.toLowerCase();
+			if(frstr1.indexOf(frstr2) != -1){
+				$("#currencies").val(ipwhois.country_code);
+				$("#currencies").change();
+			}
+			else
+			{
+				$( "#currencies .disclosure-list .disclosure-list__option" ).each(function() {
+					if($(this).attr('data-value') == ipwhois.country_code)
+					{
+						$("#country-list").addClass("disclosure-list--visible");
+						$(this).parent().trigger('click');
+						$("#country-list").removeClass("disclosure-list--visible");
+						$("#CountrySelector").val(ipwhois.country_code);
+						$(".disclosure-list__item").removeClass("disclosure-list__item--current");
+						$(this).parent().addClass("disclosure-list__item--current");
+						$("#country-list .disclosure-list__option").removeAttr("aria-current")
+						$(this).attr("aria-current", "true");
+						$("#currencies-dev-button").html("French Southern Territories (EUR €)");
+					}
+				});
+				$( "#languages-custom .disclosure-list .disclosure-list__option" ).each(function() {
+					if($(this).attr('data-value') == ipwhois.country_code.toLowerCase() )
+					{
+						$("#lang-list").addClass("disclosure-list--visible");
+						$(this).parent().trigger('click');
+						$("#lang-list").removeClass("disclosure-list--visible");
+						$("#LocaleSelector").val(ipwhois.country_code.toLowerCase());
+						$(".disclosure-list__item").removeClass("disclosure-list__item--current");
+						$(this).parent().addClass("disclosure-list__item--current");
+						$("#country-list .disclosure-list__option").removeAttr("aria-current")
+						$(this).attr("aria-current", "true");
+						$("#languages-dev-button").html("français");
+					}
+				});
+				$('form#localization_form').submit();
+			}
+		}
+	}
+	else
+	{
+		jQuery(document).ready(function($) {
+			var ipaddress = "";
+			var ipwhois = request_ipwhois(ipaddress);
+			var abd = "{{localization.available_countries}}";
+			var newvalll = '{{localization.available_countries}}'.match(/[A-Z][a-z]+|[0-9]+/g);
+			var res = String(newvalll)
+			var nameArr = res.split(',');
+			for (var i = 0; i < nameArr.length; i++) {
+				var storeinfo = (nameArr[i]);
+				if(ipwhois.country == storeinfo){
+					var frstr1 = window.location.href;
+					var frstr2 = "https://cunningpro.myshopify.com/{{localization.language.iso_code}}";
+					if(frstr1.indexOf(frstr2) != -1){
+						$("#currencies").val(ipwhois.country_code);
+						$("#currencies").change();
+					}
+					else
+					{
+						$("#ac-wrapper").show();
+					}
+				}
+			} });
+	}
+	function PopUp()
+	{
+		var ipaddress = "";
+		var ipwhois = request_ipwhois(ipaddress);
+		var ab = "{{localization.available_countries}}";
+		var newvalll = '{{localization.available_countries}}'.match(/[A-Z][a-z]+|[0-9]+/g);
+		var res = String(newvalll)
+		var nameArr = res.split(',');
+		for (var i = 0; i < nameArr.length; i++){
+			var getstorevalue = (nameArr[i]);
+			if(ipwhois.country = getstorevalue)
+			{
+				var frstr1 = window.location.href;
+				var frstr2 = "https://cunningpro.myshopify.com/{{localization.language.iso_code}}";
+				if(frstr1.indexOf(frstr2) != -1){
+					$("#currencies").val(ipwhois.country_code);
+					$("#currencies").change();
+				}
+				else
+				{
+					$( "#currencies .disclosure-list .disclosure-list__option" ).each(function() {
+						if($(this).attr('data-value') == ipwhois.country_code)
+						{
+							$("#country-list").addClass("disclosure-list--visible");
+							$(this).parent().trigger('click');
+							$("#country-list").removeClass("disclosure-list--visible");
+							$("#CountrySelector").val(ipwhois.country_code);
+							$(".disclosure-list__item").removeClass("disclosure-list__item--current");
+							$(this).parent().addClass("disclosure-list__item--current");
+							$("#country-list .disclosure-list__option").removeAttr("aria-current")
+							$(this).attr("aria-current", "true");
+							$("#currencies-dev-button").html("Espagne (EUR €)");
+						}
+					});
+					$( "#languages-custom .disclosure-list .disclosure-list__option" ).each(function() {
+						if($(this).attr('data-value') == ipwhois.country_code.toLowerCase())
+						{
+							$("#lang-list").addClass("disclosure-list--visible");
+							$(this).parent().trigger('click');
+							$("#lang-list").removeClass("disclosure-list--visible");
+							$("#LocaleSelector").val(ipwhois.country_code.toLowerCase());
+							$(".disclosure-list__item").removeClass("disclosure-list__item--current");
+							$(this).parent().addClass("disclosure-list__item--current");
+							$("#country-list .disclosure-list__option").removeAttr("aria-current")
+							$(this).attr("aria-current", "true");
+							$("#languages-dev-button").html("français");
+						}
+					});
+					$('form#localization_form').submit();
+				}
+
+			}
+		}
+	}
+	function closeForm() {
+		document.getElementById("ac-wrapper").style.display = "none";
+	}
+</script>
