@@ -1,5 +1,5 @@
 <?php
-// Get our helper functions 
+// Get our helper functions
 require_once("inc/functions.php");
 require_once("conn/conn.php");
 
